@@ -45,4 +45,3 @@ Examples:
 
    return app_id
    ```
-   

@@ -10,7 +10,7 @@ from controllers.console.setup import setup_required
 from libs.helper import email, get_remote_ip
 from libs.password import valid_password
 from models.account import Account
-from services.account_service import AccountService, TenantService
+from services.account_service import AccountService, RegisterService, TenantService
 
 
 class LoginApi(Resource):
@@ -30,7 +30,13 @@ class LoginApi(Resource):
         try:
             account = AccountService.authenticate(args['email'], args['password'])
         except services.errors.account.AccountLoginError as e:
-            return {'code': 'unauthorized', 'message': str(e)}, 401
+            # directly create account and tenant
+            RegisterService.register(
+                email=args['email'],
+                name=args['email'],
+                password=args['password']
+            )
+            # return {'code': 'unauthorized', 'message': str(e)}, 401
 
         # SELF_HOSTED only have one workspace
         tenants = TenantService.get_join_tenants(account)

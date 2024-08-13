@@ -9,6 +9,7 @@ Use `docker-compose --profile certbot up` to use this features.
 
 1. Get letsencrypt certs  
    set `.env` values
+
    ```properties
    NGINX_SSL_CERT_FILENAME=fullchain.pem
    NGINX_SSL_CERT_KEY_FILENAME=privkey.pem
@@ -16,24 +17,33 @@ Use `docker-compose --profile certbot up` to use this features.
    CERTBOT_DOMAIN=your_domain.com
    CERTBOT_EMAIL=example@your_domain.com
    ```
+
    excecute command:
+
    ```shell
    sudo docker network prune
    sudo docker-compose --profile certbot up --force-recreate -d
    ```
+
    then after the containers launched:
+
    ```shell
    sudo docker-compose exec -it certbot /bin/sh /update-cert.sh
    ```
+
 2. Edit `.env` file and `sudo docker-compose --profile certbot up` again.  
    set `.env` value additionally
+
    ```properties
    NGINX_HTTPS_ENABLED=true
    ```
+
    excecute command:
+
    ```shell
    sudo docker-compose --profile certbot up -d --no-deps --force-recreate nginx
    ```
+
    Then you can access your serve with HTTPS.  
    [https://your_domain.com](https://your_domain.com)
 
